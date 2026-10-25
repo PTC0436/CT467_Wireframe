@@ -1,0 +1,1002 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Wireframe – Quản lý rạp chiếu phim</title>
+    <style>
+      :root {
+        --bg: #e9e9e9;
+        --panel: #f7f7f7;
+        --line: #8a8a8a;
+        --soft: #cfcfcf;
+        --fill: #d9d9d9;
+        --ink: #222;
+        --mute: #666;
+        --sel: #bdbdbd;
+        --white: #fff;
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #1c1c1c;
+          --panel: #262626;
+          --line: #777;
+          --soft: #3d3d3d;
+          --fill: #3a3a3a;
+          --ink: #e6e6e6;
+          --mute: #a0a0a0;
+          --sel: #555;
+          --white: #2f2f2f;
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #1c1c1c;
+        --panel: #262626;
+        --line: #777;
+        --soft: #3d3d3d;
+        --fill: #3a3a3a;
+        --ink: #e6e6e6;
+        --mute: #a0a0a0;
+        --sel: #555;
+        --white: #2f2f2f;
+      }
+      html {
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font:
+          14px/1.45 system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          Arial,
+          sans-serif;
+      }
+      .frame {
+        max-width: 1180px;
+        margin: 16px auto;
+        border: 2px solid var(--line);
+        background: var(--panel);
+      }
+      .top {
+        display: flex;
+        gap: 18px;
+        padding: 6px 12px;
+        border-bottom: 1px solid var(--line);
+        font-size: 13px;
+        color: var(--mute);
+      }
+      .shell {
+        display: flex;
+        min-height: 620px;
+      }
+      .side {
+        width: 190px;
+        flex: none;
+        border-right: 1px solid var(--line);
+        background: var(--fill);
+        padding: 8px 0;
+      }
+      .side a {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        padding: 10px 14px;
+        color: var(--ink);
+        text-decoration: none;
+        border-bottom: 1px solid var(--soft);
+      }
+      .side a i {
+        width: 18px;
+        height: 18px;
+        border: 1.5px solid var(--line);
+        background: var(--white);
+        flex: none;
+      }
+      .side a.on {
+        background: var(--sel);
+        font-weight: 600;
+      }
+      .side a:focus-visible,
+      button:focus-visible,
+      .btn:focus-visible {
+        outline: 2px solid var(--ink);
+        outline-offset: -2px;
+      }
+      main {
+        flex: 1;
+        min-width: 0;
+        padding: 16px 18px;
+      }
+      h1 {
+        font-size: 19px;
+        margin: 0 0 4px;
+        text-align: center;
+      }
+      .sub {
+        text-align: center;
+        color: var(--mute);
+        font-size: 12.5px;
+        margin: 0 0 14px;
+      }
+      .cols {
+        display: grid;
+        gap: 14px;
+        align-items: start;
+      }
+      .c2 {
+        grid-template-columns: 1.6fr 1fr;
+      }
+      .c3 {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+      .c21 {
+        grid-template-columns: 1fr 1fr;
+      }
+      fieldset {
+        border: 1px solid var(--line);
+        margin: 0 0 14px;
+        padding: 10px 12px;
+        background: var(--panel);
+        min-width: 0;
+      }
+      legend {
+        font-weight: 600;
+        padding: 0 6px;
+        font-size: 13px;
+      }
+      .f {
+        display: grid;
+        grid-template-columns: 116px 1fr;
+        gap: 8px;
+        align-items: center;
+        margin: 7px 0;
+      }
+      .f label {
+        font-size: 13px;
+      }
+      .in {
+        height: 28px;
+        border: 1px solid var(--line);
+        background: var(--white);
+        padding: 4px 8px;
+        font-size: 12.5px;
+        color: var(--mute);
+        overflow: hidden;
+        white-space: nowrap;
+      }
+      .in.dd::after {
+        content: "▾";
+        float: right;
+      }
+      .in.ro {
+        background: var(--fill);
+      }
+      .btns {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 10px;
+      }
+      .btn {
+        border: 1px solid var(--line);
+        background: var(--fill);
+        padding: 5px 14px;
+        font: inherit;
+        font-size: 13px;
+        color: var(--ink);
+        cursor: default;
+      }
+      .btn.p {
+        background: var(--sel);
+        font-weight: 600;
+      }
+      .tw {
+        overflow-x: auto;
+        border: 1px solid var(--line);
+        background: var(--white);
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 12.5px;
+        min-width: 420px;
+      }
+      th {
+        background: var(--fill);
+        text-align: left;
+        padding: 6px 8px;
+        border-bottom: 1px solid var(--line);
+        border-right: 1px solid var(--soft);
+        white-space: nowrap;
+      }
+      td {
+        padding: 5px 8px;
+        border-bottom: 1px solid var(--soft);
+        border-right: 1px solid var(--soft);
+        white-space: nowrap;
+      }
+      tr.sel td {
+        background: var(--sel);
+      }
+      .ph {
+        border: 1px dashed var(--line);
+        background: var(--fill);
+        color: var(--mute);
+        display: grid;
+        place-items: center;
+        text-align: center;
+        font-size: 12px;
+        position: relative;
+      }
+      .ph::before,
+      .ph::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to top right,
+          transparent calc(50% - 0.5px),
+          var(--soft) 50%,
+          transparent calc(50% + 0.5px)
+        );
+      }
+      .ph::after {
+        transform: scaleX(-1);
+      }
+      .ph span {
+        position: relative;
+        z-index: 1;
+        background: var(--fill);
+        padding: 0 6px;
+      }
+      .auth {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 28px;
+        max-width: 760px;
+        margin: 18px auto;
+      }
+      .auth .box {
+        border: 1px solid var(--line);
+        padding: 18px;
+        background: var(--panel);
+      }
+      .auth h2 {
+        margin: 0 0 12px;
+        font-size: 16px;
+        text-align: center;
+      }
+      .screen {
+        border: 1px solid var(--line);
+        text-align: center;
+        padding: 5px;
+        font-size: 12px;
+        background: var(--fill);
+        margin: 4px 0 12px;
+        letter-spacing: 0.02em;
+      }
+      .seats {
+        display: grid;
+        grid-template-columns: 22px repeat(10, 1fr);
+        gap: 5px;
+        max-width: 480px;
+        margin: 0 auto;
+      }
+      .seats b {
+        font-size: 11px;
+        color: var(--mute);
+        align-self: center;
+        font-weight: 600;
+      }
+      .s {
+        height: 24px;
+        border: 1px solid var(--line);
+        background: var(--white);
+      }
+      .s.x {
+        background: var(--line);
+      }
+      .s.v {
+        border-width: 2px;
+      }
+      .s.c {
+        background: var(--sel);
+        border-style: dashed;
+        border-width: 2px;
+      }
+      .lg {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        justify-content: center;
+        font-size: 12px;
+        margin-top: 10px;
+        color: var(--mute);
+      }
+      .lg i {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        vertical-align: -3px;
+        margin-right: 5px;
+        border: 1px solid var(--line);
+      }
+      .bar {
+        height: 14px;
+        border: 1px solid var(--line);
+        background: var(--white);
+        min-width: 90px;
+      }
+      .bar u {
+        display: block;
+        height: 100%;
+        background: var(--sel);
+      }
+      .note {
+        border-left: 3px solid var(--line);
+        padding: 4px 10px;
+        margin: 10px 0;
+        font-size: 12.5px;
+        color: var(--mute);
+      }
+      .kpi {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+      .kpi div {
+        border: 1px solid var(--line);
+        background: var(--white);
+        padding: 8px 10px;
+        font-size: 12.5px;
+      }
+      .kpi b {
+        display: block;
+        font-size: 17px;
+        margin-top: 2px;
+      }
+      .rad {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 18px;
+        margin: 6px 0 10px;
+        font-size: 13px;
+      }
+      .rad i {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border: 1.5px solid var(--line);
+        border-radius: 50%;
+        vertical-align: -2px;
+        margin-right: 6px;
+        background: var(--white);
+      }
+      .rad i.on {
+        background: var(--ink);
+        box-shadow: inset 0 0 0 2px var(--white);
+      }
+      @media (max-width: 860px) {
+        .shell {
+          flex-direction: column;
+        }
+        .side {
+          width: auto;
+          display: flex;
+          overflow-x: auto;
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+          padding: 0;
+        }
+        .side a {
+          white-space: nowrap;
+          border-bottom: 0;
+          border-right: 1px solid var(--soft);
+        }
+        .c2,
+        .c3,
+        .c21,
+        .auth {
+          grid-template-columns: 1fr;
+        }
+        .kpi {
+          grid-template-columns: 1fr;
+        }
+        .frame {
+          margin: 0;
+          border-width: 0 0 2px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="frame">
+      <div class="top">
+        <span>Tài khoản</span><span>Trở về</span><span>Thoát</span
+        ><span style="margin-left: auto"
+          >Wireframe – Hệ thống quản lý rạp chiếu phim</span
+        >
+      </div>
+      <div class="shell">
+        <nav class="side" id="nav" aria-label="Chức năng"></nav>
+        <main id="view"></main>
+      </div>
+    </div>
+    <script>
+      var MENU = [
+        ["dangnhap", "Đăng nhập"],
+        ["phim", "Phim"],
+        ["phong", "Phòng chiếu và ghế"],
+        ["suat", "Suất chiếu"],
+        ["ve", "Bán vé"],
+        ["khach", "Khách hàng"],
+        ["hoadon", "Bắp nước và hóa đơn"],
+        ["thongke", "Thống kê"],
+      ];
+      function T(h, r, s) {
+        return (
+          '<div class="tw"><table><tr>' +
+          h
+            .map(function (x) {
+              return "<th>" + x + "</th>";
+            })
+            .join("") +
+          "</tr>" +
+          r
+            .map(function (row, i) {
+              return (
+                "<tr" +
+                (i === s ? ' class="sel"' : "") +
+                ">" +
+                row
+                  .map(function (c) {
+                    return "<td>" + c + "</td>";
+                  })
+                  .join("") +
+                "</tr>"
+              );
+            })
+            .join("") +
+          "</table></div>"
+        );
+      }
+      function F(l, v, k) {
+        return (
+          '<div class="f"><label>' +
+          l +
+          '</label><div class="in' +
+          (k === "dd" ? " dd" : "") +
+          (k === "ro" ? " ro" : "") +
+          '">' +
+          (v || "&nbsp;") +
+          "</div></div>"
+        );
+      }
+      function B(a) {
+        return (
+          '<div class="btns">' +
+          a
+            .map(function (x, i) {
+              return (
+                '<span class="btn' +
+                (i === 0 ? " p" : "") +
+                '">' +
+                x +
+                "</span>"
+              );
+            })
+            .join("") +
+          "</div>"
+        );
+      }
+      function FS(t, b) {
+        return "<fieldset><legend>" + t + "</legend>" + b + "</fieldset>";
+      }
+      function H(t, s) {
+        return "<h1>" + t + '</h1><p class="sub">' + s + "</p>";
+      }
+      var CRUD = ["Thêm", "Lưu", "Sửa", "Xóa", "Làm mới"],
+        SRCH = ["Tìm kiếm", "Hủy tìm kiếm"];
+      function seats() {
+        var o = "",
+          r = "ABCDEF",
+          k,
+          i,
+          c;
+        for (k = 0; k < 6; k++) {
+          o += "<b>" + r[k] + "</b>";
+          for (i = 1; i <= 10; i++) {
+            c = "s";
+            if (k === 2 && (i === 4 || i === 5 || i === 6)) c += " x";
+            else if (k === 3 && i === 7) c += " x";
+            else if (k === 5 && i <= 8) c += " v";
+            if (k === 1 && i === 5) c = "s c";
+            o += '<div class="' + c + '"></div>';
+          }
+        }
+        return (
+          '<div class="screen">MÀN HÌNH</div><div class="seats">' +
+          o +
+          '</div><div class="lg"><span><i style="background:var(--white)"></i>Trống</span><span><i style="background:var(--line)"></i>Đã đặt</span><span><i style="background:var(--sel);border-style:dashed"></i>Đang chọn</span><span><i style="border-width:2px"></i>Ghế VIP</span></div>'
+        );
+      }
+      var V = {
+        dangnhap: function () {
+          return (
+            H(
+              "Đăng nhập",
+              "Màn hình đầu tiên, dành cho nhân viên quầy và quản trị viên",
+            ) +
+            '<div class="auth"><div class="box"><h2>Đăng nhập</h2><div class="ph" style="height:110px;margin-bottom:14px"><span>Logo rạp</span></div>' +
+            F("Tài khoản") +
+            F("Mật khẩu") +
+            B(["Đăng nhập", "Đăng ký"]) +
+            '</div><div class="box"><h2>Đăng ký</h2>' +
+            F("Tài khoản") +
+            F("Mật khẩu") +
+            F("Họ tên") +
+            F("Số điện thoại") +
+            F("Vai trò", "Nhân viên bán vé", "dd") +
+            B(["Đăng ký"]) +
+            '<p style="font-size:12.5px;color:var(--mute);margin:12px 0 0">Đã có tài khoản? Đăng nhập ngay</p></div></div>'
+          );
+        },
+        phim: function () {
+          return (
+            H(
+              "Danh sách phim",
+              "Bảng Phim: mã phim, tên, thể loại, đạo diễn, thời lượng, ngày khởi chiếu, độ tuổi",
+            ) +
+            '<div class="cols c2"><div>' +
+            T(
+              [
+                "Mã phim",
+                "Tên phim",
+                "Thể loại",
+                "Đạo diễn",
+                "Thời lượng",
+                "Khởi chiếu",
+                "Độ tuổi",
+              ],
+              [
+                [
+                  "P001",
+                  "Phim A",
+                  "Hành động",
+                  "Đạo diễn 1",
+                  "120 phút",
+                  "01/11/2026",
+                  "T16",
+                ],
+                [
+                  "P002",
+                  "Phim B",
+                  "Hoạt hình",
+                  "Đạo diễn 2",
+                  "95 phút",
+                  "08/11/2026",
+                  "P",
+                ],
+                [
+                  "P003",
+                  "Phim C",
+                  "Kinh dị",
+                  "Đạo diễn 3",
+                  "105 phút",
+                  "15/11/2026",
+                  "T18",
+                ],
+                [
+                  "P004",
+                  "Phim D",
+                  "Tình cảm",
+                  "Đạo diễn 4",
+                  "110 phút",
+                  "22/11/2026",
+                  "T13",
+                ],
+              ],
+              0,
+            ) +
+            "</div><div>" +
+            FS(
+              "Thông tin phim",
+              F("Mã phim", "P001", "ro") +
+                F("Tên phim") +
+                F("Thể loại", "--Chọn--", "dd") +
+                F("Đạo diễn") +
+                F("Thời lượng (phút)") +
+                F("Ngày khởi chiếu", "dd / mm / yyyy") +
+                F("Độ tuổi cho phép", "--Chọn--", "dd") +
+                B(CRUD),
+            ) +
+            FS(
+              "Tìm kiếm",
+              F("Tên phim") + F("Thể loại", "--Chọn--", "dd") + B(SRCH),
+            ) +
+            "</div></div>"
+          );
+        },
+        phong: function () {
+          return (
+            H(
+              "Phòng chiếu và ghế",
+              "Bảng Phòng chiếu và bảng Ghế (mỗi ghế thuộc một phòng)",
+            ) +
+            '<div class="cols c21"><div>' +
+            FS(
+              "Thông tin phòng chiếu",
+              F("Mã phòng", "PC01", "ro") +
+                F("Tên phòng") +
+                F("Số ghế") +
+                F("Loại phòng", "2D / 3D / IMAX", "dd") +
+                B(CRUD),
+            ) +
+            '<div style="margin-top:6px">' +
+            T(
+              ["Mã phòng", "Tên phòng", "Số ghế", "Loại phòng"],
+              [
+                ["PC01", "Phòng 1", "60", "2D"],
+                ["PC02", "Phòng 2", "60", "3D"],
+                ["PC03", "Phòng 3", "80", "IMAX"],
+              ],
+              0,
+            ) +
+            "</div></div><div>" +
+            FS(
+              "Chi tiết ghế của phòng đã chọn",
+              F("Mã ghế", "G001", "ro") +
+                F("Mã phòng", "PC01", "ro") +
+                F("Số hàng") +
+                F("Số ghế") +
+                F("Loại ghế", "Thường / VIP", "dd") +
+                B(["Thêm", "Sửa", "Xóa"]),
+            ) +
+            T(
+              ["Mã ghế", "Mã phòng", "Hàng", "Ghế", "Loại"],
+              [
+                ["G001", "PC01", "A", "1", "Thường"],
+                ["G002", "PC01", "A", "2", "Thường"],
+                ["G051", "PC01", "F", "1", "VIP"],
+              ],
+              0,
+            ) +
+            "</div></div>"
+          );
+        },
+        suat: function () {
+          return (
+            H(
+              "Suất chiếu",
+              "Bảng Suất chiếu; có bộ lọc dùng Stored Procedure “Danh sách suất chiếu của một phim trong ngày”",
+            ) +
+            FS(
+              "Lọc suất chiếu",
+              '<div class="cols c3"><div>' +
+                F("Phim", "--Chọn--", "dd") +
+                "</div><div>" +
+                F("Ngày chiếu", "dd / mm / yyyy") +
+                "</div><div>" +
+                B(["Xem suất chiếu", "Hủy lọc"]) +
+                "</div></div>",
+            ) +
+            '<div class="cols c2"><div>' +
+            T(
+              [
+                "Mã suất",
+                "Mã phim",
+                "Mã phòng",
+                "Ngày chiếu",
+                "Giờ chiếu",
+                "Giá vé",
+              ],
+              [
+                ["SC001", "P001", "PC01", "01/11/2026", "09:00", "80.000"],
+                ["SC002", "P001", "PC01", "01/11/2026", "13:30", "90.000"],
+                ["SC003", "P001", "PC03", "01/11/2026", "19:00", "130.000"],
+                ["SC004", "P002", "PC02", "01/11/2026", "10:15", "75.000"],
+              ],
+              2,
+            ) +
+            "</div><div>" +
+            FS(
+              "Thông tin suất chiếu",
+              F("Mã suất chiếu", "SC003", "ro") +
+                F("Phim", "Phim A", "dd") +
+                F("Phòng chiếu", "Phòng 3", "dd") +
+                F("Ngày chiếu", "01 / 11 / 2026") +
+                F("Giờ chiếu", "19:00") +
+                F("Giá vé", "130.000") +
+                B(CRUD),
+            ) +
+            "</div></div>"
+          );
+        },
+        ve: function () {
+          return (
+            H(
+              "Bán vé tại quầy",
+              "Chọn suất chiếu, chọn ghế, chọn khách hàng, lưu vé. Chỉ làm tại quầy, không đặt vé online",
+            ) +
+            '<div class="cols c2"><div>' +
+            FS("Chọn ghế – Phim A, Phòng 1, 19:00", seats()) +
+            '<div class="note">Trigger kiểm tra giờ đặt: chặn lưu vé khi suất chiếu quá gần giờ chiếu và hiện thông báo lỗi tại đây.</div></div><div>' +
+            FS(
+              "Thông tin vé",
+              F("Mã vé", "V0105", "ro") +
+                F("Suất chiếu", "SC003", "dd") +
+                F("Khách hàng", "--Chọn--", "dd") +
+                F("Ghế đã chọn", "B5", "ro") +
+                F("Ngày đặt", "25 / 10 / 2026") +
+                F("Giá vé", "130.000", "ro") +
+                F("Trạng thái", "Đã đặt", "dd") +
+                B(["Lưu vé", "Hủy vé", "Làm mới"]),
+            ) +
+            FS("Tìm kiếm vé", F("Mã vé") + F("Mã khách hàng") + B(SRCH)) +
+            '</div></div><h1 style="font-size:15px;text-align:left;margin:4px 0 8px">Vé của suất chiếu</h1>' +
+            T(
+              [
+                "Mã vé",
+                "Mã suất",
+                "Mã KH",
+                "Mã ghế",
+                "Ngày đặt",
+                "Giá vé",
+                "Trạng thái",
+              ],
+              [
+                [
+                  "V0103",
+                  "SC003",
+                  "KH02",
+                  "G012",
+                  "24/10/2026",
+                  "130.000",
+                  "Đã đặt",
+                ],
+                [
+                  "V0104",
+                  "SC003",
+                  "KH05",
+                  "G013",
+                  "24/10/2026",
+                  "130.000",
+                  "Đã sử dụng",
+                ],
+                [
+                  "V0105",
+                  "SC003",
+                  "KH01",
+                  "G014",
+                  "25/10/2026",
+                  "130.000",
+                  "Đã đặt",
+                ],
+                [
+                  "V0106",
+                  "SC003",
+                  "KH07",
+                  "G015",
+                  "25/10/2026",
+                  "130.000",
+                  "Đã hủy",
+                ],
+              ],
+              2,
+            )
+          );
+        },
+        khach: function () {
+          return (
+            H("Khách hàng", "Bảng Khách hàng: mã, tên, số điện thoại, email") +
+            '<div class="cols c2"><div>' +
+            T(
+              ["Mã KH", "Tên khách hàng", "Số điện thoại", "Email"],
+              [
+                ["KH01", "Nguyễn Văn An", "09xx xxx xxx", "an@email.com"],
+                ["KH02", "Trần Thị Bình", "09xx xxx xxx", "binh@email.com"],
+                ["KH03", "Lê Minh Châu", "09xx xxx xxx", "chau@email.com"],
+                ["KH04", "Phạm Quốc Dũng", "09xx xxx xxx", "dung@email.com"],
+              ],
+              0,
+            ) +
+            "</div><div>" +
+            FS(
+              "Thông tin khách hàng",
+              F("Mã khách hàng", "KH01", "ro") +
+                F("Tên khách hàng") +
+                F("Số điện thoại") +
+                F("Email") +
+                B(CRUD),
+            ) +
+            FS("Tìm kiếm", F("Tên khách hàng") + F("Số điện thoại") + B(SRCH)) +
+            FS(
+              "Lịch sử mua vé",
+              T(
+                ["Mã vé", "Phim", "Ngày đặt"],
+                [
+                  ["V0105", "Phim A", "25/10/2026"],
+                  ["V0081", "Phim B", "12/10/2026"],
+                ],
+                -1,
+              ),
+            ) +
+            "</div></div>"
+          );
+        },
+        hoadon: function () {
+          return (
+            H("Bắp nước và hóa đơn", "Bảng Bắp nước (combo) và bảng Hóa đơn") +
+            '<div class="cols c21"><div>' +
+            FS(
+              "Danh mục combo bắp nước",
+              T(
+                ["Mã combo", "Tên combo", "Giá combo", "Mô tả"],
+                [
+                  ["CB01", "Combo 1", "65.000", "1 bắp, 1 nước"],
+                  ["CB02", "Combo 2", "95.000", "1 bắp, 2 nước"],
+                  ["CB03", "Combo 3", "120.000", "2 bắp, 2 nước"],
+                ],
+                1,
+              ) + B(["Thêm", "Sửa", "Xóa"]),
+            ) +
+            FS(
+              "Danh sách hóa đơn",
+              T(
+                ["Mã HĐ", "Mã KH", "Mã combo", "SL", "Ngày mua", "Tổng tiền"],
+                [
+                  ["HD001", "KH01", "CB02", "1", "25/10/2026", "95.000"],
+                  ["HD002", "KH02", "CB01", "2", "25/10/2026", "130.000"],
+                  ["HD003", "KH05", "CB03", "1", "24/10/2026", "120.000"],
+                ],
+                0,
+              ),
+            ) +
+            "</div><div>" +
+            FS(
+              "Thông tin hóa đơn",
+              F("Mã hóa đơn", "HD001", "ro") +
+                F("Khách hàng", "KH01", "dd") +
+                F("Combo", "Combo 2", "dd") +
+                F("Số lượng", "1") +
+                F("Ngày mua", "25 / 10 / 2026") +
+                F("Tổng tiền", "95.000", "ro") +
+                B(["Thêm", "Sửa", "Xóa", "Tạo mới", "In hóa đơn"]),
+            ) +
+            FS(
+              "Tìm kiếm hóa đơn",
+              F("Mã hóa đơn") + F("Mã khách hàng") + B(SRCH),
+            ) +
+            "</div></div>"
+          );
+        },
+        thongke: function () {
+          return (
+            H(
+              "Thống kê",
+              "Doanh thu theo phim và tỷ lệ lấp đầy phòng chiếu theo suất",
+            ) +
+            '<div class="cols c21"><div>' +
+            FS(
+              "Khoảng thời gian",
+              '<div class="rad"><span><i></i>Từ ngày – đến ngày</span><span><i></i>Theo tháng</span><span><i class="on"></i>Theo năm</span></div>' +
+                F("Từ ngày", "dd / mm / yyyy") +
+                F("Đến ngày", "dd / mm / yyyy") +
+                F("Năm", "2026", "dd") +
+                B(["Thống kê", "Hủy thống kê", "Xuất Excel"]),
+            ) +
+            '<div class="kpi"><div>Tổng doanh thu vé<b>0 đ</b></div><div>Doanh thu bắp nước<b>0 đ</b></div><div>Tổng cộng<b>0 đ</b></div></div></div><div>' +
+            FS(
+              "Doanh thu theo phim",
+              T(
+                ["Phim", "Số vé", "Doanh thu", "Biểu đồ"],
+                [
+                  [
+                    "Phim A",
+                    "420",
+                    "43.800.000",
+                    '<div class="bar"><u style="width:90%"></u></div>',
+                  ],
+                  [
+                    "Phim B",
+                    "310",
+                    "23.250.000",
+                    '<div class="bar"><u style="width:55%"></u></div>',
+                  ],
+                  [
+                    "Phim C",
+                    "150",
+                    "16.500.000",
+                    '<div class="bar"><u style="width:35%"></u></div>',
+                  ],
+                ],
+                -1,
+              ),
+            ) +
+            "</div></div>" +
+            FS(
+              "Tỷ lệ lấp đầy phòng chiếu theo suất",
+              T(
+                [
+                  "Mã suất",
+                  "Phim",
+                  "Phòng",
+                  "Giờ chiếu",
+                  "Ghế đã bán",
+                  "Tổng ghế",
+                  "Tỷ lệ lấp đầy",
+                ],
+                [
+                  [
+                    "SC001",
+                    "Phim A",
+                    "Phòng 1",
+                    "09:00",
+                    "24",
+                    "60",
+                    '<div class="bar"><u style="width:40%"></u></div> 40%',
+                  ],
+                  [
+                    "SC002",
+                    "Phim A",
+                    "Phòng 1",
+                    "13:30",
+                    "45",
+                    "60",
+                    '<div class="bar"><u style="width:75%"></u></div> 75%',
+                  ],
+                  [
+                    "SC003",
+                    "Phim A",
+                    "Phòng 3",
+                    "19:00",
+                    "76",
+                    "80",
+                    '<div class="bar"><u style="width:95%"></u></div> 95%',
+                  ],
+                ],
+                -1,
+              ),
+            )
+          );
+        },
+      };
+      function route() {
+        var k = (location.hash || "").replace("#", "");
+        if (!V[k]) k = "dangnhap";
+        document.getElementById("nav").innerHTML = MENU.map(function (m) {
+          return (
+            '<a href="#' +
+            m[0] +
+            '"' +
+            (m[0] === k ? ' class="on"' : "") +
+            "><i></i>" +
+            m[1] +
+            "</a>"
+          );
+        }).join("");
+        document.getElementById("view").innerHTML = V[k]();
+        document.title =
+          MENU.filter(function (m) {
+            return m[0] === k;
+          })[0][1] + " – Wireframe rạp chiếu phim";
+      }
+      window.addEventListener("hashchange", route);
+      route();
+    </script>
+  </body>
+</html>
